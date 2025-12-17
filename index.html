@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ewake AI + Google Cloud | Production Reliability Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #34a853;
+            --dark: #202124;
+            --light: #f8f9fa;
+            --gray: #5f6368;
+            --border: #dadce0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .company-name h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .company-name p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .partner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            margin-top: 1rem;
+        }
+
+        .google-cloud-logo {
+            color: #4285F4;
+            font-size: 1.5rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .content-section {
+            margin-bottom: 4rem;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .image-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-caption {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .image-caption h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .image-caption p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Case Study */
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .case-study-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
+        }
+
+        .case-study-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .case-study-card i {
+            font-size: 1.2rem;
+        }
+
+        /* Google Cloud Integration */
+        .integration-details {
+            background: #f8fafc;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .integration-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Documentation */
+        .doc-section {
+            margin-top: 2rem;
+        }
+
+        .doc-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .doc-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: #bdc1c6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #3c4043;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .image-gallery, .case-study-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <div class="logo">E</div>
+                <div class="company-name">
+                    <h1>Ewake AI</h1>
+                    <p>AI-Driven Production Reliability Platform</p>
+                </div>
+            </div>
+            <div class="partner-badge">
+                <i class="fab fa-google google-cloud-logo"></i>
+                <span>Google Cloud Build Partner</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h2>Ewake AI + Google Cloud</h2>
+            <p>Intelligent production monitoring, automated root cause analysis, and actionable insights powered by Google Cloud AI/ML infrastructure.</p>
+            <div class="partner-badge">
+                <i class="fas fa-check-circle" style="color: var(--secondary);"></i>
+                <span>Solution Status: <strong>Generally Available</strong></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Image Gallery -->
+        <section class="content-section">
+            <h2 class="section-title">Solution in Action</h2>
+            <p>Ewake AI integrates seamlessly with Google Cloud to provide real-time visibility into production systems, detect anomalies, and reduce MTTR.</p>
+            
+            <div class="image-gallery">
+                <div class="image-card">
+                    <img src="https://framerusercontent.com/images/IA8DTAcweVnVNsOJUP6jLGCGB4.png?scale-down-to=1024&width=1719&height=1140" alt="Ewake Alert Analysis Dashboard">
+                    <div class="image-caption">
+                        <h4>Real-time Alert Analysis</h4>
+                        <p>Ewake AI analyzes production alerts, correlates signals, and identifies root causes using Google Cloud's AI/ML capabilities.</p>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <img src="https://framerusercontent.com/images/b0RBOGOJU5oqDVyvZHbqCo8m8.png?scale-down-to=1024&width=1719&height=1140" alt="Ewake Alert Pattern Analysis">
+                    <div class="image-caption">
+                        <h4>Alert Pattern Analysis</h4>
+                        <p>Pattern recognition and correlation with user activity to reduce false positives and provide actionable insights.</p>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <img src="https://framerusercontent.com/images/vWSpL2n22QRxDCsN5vPs5dayg.png?scale-down-to=1024&width=1719&height=1140" alt="Ewake Production Report">
+                    <div class="image-caption">
+                        <h4>Production Health Report</h4>
+                        <p>Comprehensive reporting on system health, error spikes, and service performance with Google Cloud integration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study -->
+        <section class="content-section">
+            <h2 class="section-title">Case Study</h2>
+            <p>How Ewake AI helped a SaaS company reduce MTTR by 65% using Google Cloud integration.</p>
+            
+            <div class="case-study-grid">
+                <div class="case-study-card">
+                    <h3><i class="fas fa-chart-line"></i> The Challenge</h3>
+                    <p>A growing SaaS company was experiencing increasing production incidents with an average MTTR of 2.5 hours. Their engineering team spent 40% of their time debugging production issues instead of building new features.</p>
+                </div>
+                
+                <div class="case-study-card">
+                    <h3><i class="fas fa-cogs"></i> The Solution</h3>
+                    <p>Ewake AI was implemented with Google Cloud Monitoring, Logging, and BigQuery integration. The platform used Vertex AI for anomaly detection and Pub/Sub for real-time event processing.</p>
+                </div>
+                
+                <div class="case-study-card">
+                    <h3><i class="fas fa-trophy"></i> The Results</h3>
+                    <ul>
+                        <li><strong>65% reduction</strong> in MTTR (from 2.5h to 53min)</li>
+                        <li><strong>40% decrease</strong> in false positive alerts</li>
+                        <li><strong>30% more time</strong> for feature development</li>
+                        <li>Seamless integration with existing Google Cloud infrastructure</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Google Cloud Integration -->
+        <section class="content-section">
+            <h2 class="section-title">Google Cloud Integration</h2>
+            <p>Ewake AI leverages multiple Google Cloud services to deliver comprehensive production reliability monitoring.</p>
+            
+            <div class="integration-details">
+                <h3>Integrated Google Cloud Products</h3>
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <h4><i class="fas fa-search"></i> Google Cloud Monitoring</h4>
+                        <p>Real-time metrics collection and visualization with custom dashboards.</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <h4><i class="fas fa-file-alt"></i> Google Cloud Logging</h4>
+                        <p>Centralized log management with advanced querying and analysis.</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <h4><i class="fas fa-database"></i> BigQuery</h4>
+                        <p>Historical data analysis and pattern recognition for predictive insights.</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <h4><i class="fas fa-stream"></i> Pub/Sub</h4>
+                        <p>Real-time event streaming for immediate incident detection and response.</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <h4><i class="fas fa-brain"></i> Vertex AI</h4>
+                        <p>Machine learning models for anomaly detection and root cause analysis.</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <h4><i class="fas fa-project-diagram"></i> Cloud Trace</h4>
+                        <p>Distributed tracing for performance monitoring and bottleneck identification.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation -->
+        <section class="content-section">
+            <h2 class="section-title">Documentation & Resources</h2>
+            
+            <div class="doc-section">
+                <div class="doc-card">
+                    <h3><i class="fas fa-book"></i> Solution Overview</h3>
+                    <p><strong>Solution Name:</strong> Ewake AI Production Reliability Platform</p>
+                    <p><strong>Solution Status:</strong> Generally Available</p>
+                    <p><strong>Solution Type:</strong> AI/ML, DevOps, Monitoring & Observability</p>
+                    <p><strong>Description:</strong> Ewake is an AI-driven production reliability platform that integrates with Google Cloud to provide real-time system monitoring, automated root cause analysis, and actionable insights. Our solution leverages Google Cloud's AI/ML capabilities, BigQuery for log analytics, and Pub/Sub for event streaming to detect anomalies, correlate signals across systems, and reduce mean time to resolution (MTTR).</p>
+                </div>
+                
+                <div class="doc-card">
+                    <h3><i class="fas fa-video"></i> Video Resources</h3>
+                    <p><strong>Product Demo:</strong> <a href="https://ewake.tech" target="_blank">Watch Ewake AI in action</a></p>
+                    <p><strong>Integration Tutorial:</strong> <a href="https://ewake.tech" target="_blank">Setting up Ewake with Google Cloud</a></p>
+                    <p><strong>Case Study Webinar:</strong> <a href="https://ewake.tech" target="_blank">Reducing MTTR with AI-driven monitoring</a></p>
+                </div>
+                
+                <div class="doc-card">
+                    <h3><i class="fas fa-download"></i> Whitepaper & Documentation</h3>
+                    <p><strong>Technical Whitepaper:</strong> <a href="https://ewake.tech" target="_blank">AI-Driven Production Reliability with Google Cloud</a></p>
+                    <p><strong>API Documentation:</strong> <a href="https://ewake.tech" target="_blank">Ewake API Reference</a></p>
+                    <p><strong>Integration Guide:</strong> <a href="https://ewake.tech" target="_blank">Step-by-step Google Cloud Integration</a></p>
+                    <p><strong>Best Practices:</strong> <a href="https://ewake.tech" target="_blank">Production Monitoring Best Practices</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Ewake AI</h3>
+                    <p>An AI-driven production platform that enhances software reliability by monitoring systems, analyzing issues, and offering actions in real time.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="https://ewake.tech" target="_blank">Website</a></li>
+                        <li><a href="mailto:omid@ewake.tech">Contact: omid@ewake.tech</a></li>
+                        <li><a href="https://ewake.tech" target="_blank">Documentation</a></li>
+                        <li><a href="https://ewake.tech" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Google Cloud Resources</h3>
+                    <ul>
+                        <li><a href="https://cloud.google.com/monitoring" target="_blank">Cloud Monitoring</a></li>
+                        <li><a href="https://cloud.google.com/logging" target="_blank">Cloud Logging</a></li>
+                        <li><a href="https://cloud.google.com/bigquery" target="_blank">BigQuery</a></li>
+                        <li><a href="https://cloud.google.com/vertex-ai" target="_blank">Vertex AI</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Target Markets & Industries</h3>
+                    <ul>
+                        <li>Software Startups</li>
+                        <li>Mid Market Enterprises</li>
+                        <li>Large Enterprises</li>
+                        <li>Financial Services</li>
+                        <li>Software & Internet</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Ewake AI. All rights reserved. | ewake.tech | Google Cloud Build Partner</p>
+                <p>Ewake is your trusted teammate for production - cutting through noise and pinpointing root causes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for image hover effect enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageCards = document.querySelectorAll('.image-card');
+            
+            imageCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                    this.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'var(--shadow)';
+                });
+            });
+            
+            // Update year in copyright
+            document.querySelector('.copyright p').innerHTML = 
+                document.querySelector('.copyright p').innerHTML.replace('2023', new Date().getFullYear());
+        });
+    </script>
+</body>
+</html>
